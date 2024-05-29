@@ -1,12 +1,11 @@
-public class MinhaLista {
-    private String[] elementos;
+// Classe genérica MinhaLista, implementa uma lista com capacidade fixa
+public class MinhaLista<T> {
+    private T[] elementos;
     private int tamanhoAtual = 0;
-
     public MinhaLista(int capacidade) {
-        elementos = new String[capacidade];
+        elementos = (T[]) new Object[capacidade];
     }
-
-    public void adicionar(String elemento) {
+    public void adicionar(T elemento) {
         if (tamanhoAtual < elementos.length) {
             elementos[tamanhoAtual] = elemento;
             tamanhoAtual++;
@@ -14,19 +13,16 @@ public class MinhaLista {
             System.out.println("Lista cheia, não é possível adicionar mais elementos.");
         }
     }
-
-    public String get(int indice) {
+    public T get(int indice) {
         if (indice >= 0 && indice < tamanhoAtual) {
             return elementos[indice];
         } else {
             return null;
         }
     }
-
     public int tamanho() {
         return tamanhoAtual;   
     }
-
     public void removerPorIndice(int indice) {
         if (indice >= 0 && indice < tamanhoAtual) {
             for (int i = indice; i < tamanhoAtual - 1; i++) {
@@ -36,8 +32,7 @@ public class MinhaLista {
             tamanhoAtual--;
         }
     }
-
-    public void removerPorElemento(String elemento) {
+    public void removerPorElemento(T elemento) {
         for (int i = 0; i < tamanhoAtual; i++) {
             if (elementos[i] != null && elementos[i].equals(elemento)) {
                 this.removerPorIndice(i);
@@ -45,12 +40,10 @@ public class MinhaLista {
             }
         }
     }
-
     public boolean estaVazia() {
         return tamanhoAtual == 0;
     }
-    
-    public boolean contem(String elemento) {
+    public boolean contem(T elemento) {
         for (int i = 0; i < tamanhoAtual; i++) {
             if (elementos[i] != null && elementos[i].equals(elemento)) {
                 return true;
@@ -58,9 +51,8 @@ public class MinhaLista {
         }
         return false;
     }
-
     public void limpar() {
-        elementos = new String[elementos.length];
+        elementos = (T[]) new Object[elementos.length];
         tamanhoAtual = 0;
     }
 
