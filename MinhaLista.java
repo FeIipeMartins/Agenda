@@ -2,9 +2,12 @@
 public class MinhaLista<T> {
     private T[] elementos;
     private int tamanhoAtual = 0;
+
+    @SuppressWarnings("unchecked")
     public MinhaLista(int capacidade) {
         elementos = (T[]) new Object[capacidade];
     }
+
     public void adicionar(T elemento) {
         if (tamanhoAtual < elementos.length) {
             elementos[tamanhoAtual] = elemento;
@@ -13,6 +16,7 @@ public class MinhaLista<T> {
             System.out.println("Lista cheia, não é possível adicionar mais elementos.");
         }
     }
+
     public T get(int indice) {
         if (indice >= 0 && indice < tamanhoAtual) {
             return elementos[indice];
@@ -20,9 +24,11 @@ public class MinhaLista<T> {
             return null;
         }
     }
+
     public int tamanho() {
         return tamanhoAtual;   
     }
+
     public void removerPorIndice(int indice) {
         if (indice >= 0 && indice < tamanhoAtual) {
             for (int i = indice; i < tamanhoAtual - 1; i++) {
@@ -32,6 +38,7 @@ public class MinhaLista<T> {
             tamanhoAtual--;
         }
     }
+
     public void removerPorElemento(T elemento) {
         for (int i = 0; i < tamanhoAtual; i++) {
             if (elementos[i] != null && elementos[i].equals(elemento)) {
@@ -40,9 +47,11 @@ public class MinhaLista<T> {
             }
         }
     }
+
     public boolean estaVazia() {
         return tamanhoAtual == 0;
     }
+    
     public boolean contem(T elemento) {
         for (int i = 0; i < tamanhoAtual; i++) {
             if (elementos[i] != null && elementos[i].equals(elemento)) {
@@ -51,6 +60,7 @@ public class MinhaLista<T> {
         }
         return false;
     }
+
     public void limpar() {
         elementos = (T[]) new Object[elementos.length];
         tamanhoAtual = 0;
