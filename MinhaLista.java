@@ -1,79 +1,105 @@
-// Classe genérica MinhaLista, implementa uma lista com capacidade fixa
+ class No<T> {
+    public T dado;
+    public No<T> proximo;
+
+    public No(T dado) {
+        this.dado = dado;
+        this.proximo = null;
+    }
+}
 public class MinhaLista<T> {
-    private T[] elementos;
-    private int tamanhoAtual = 0;
-
-    @SuppressWarnings("unchecked")
-    public MinhaLista(int capacidade) {
-        elementos = (T[]) new Object[capacidade];
+    private No<T> primeiro;
+    private int tamanhoAtual;
+    public MinhaLista() {
+        this.primeiro = null;
+        this.tamanhoAtual = 0;
     }
-
     public void adicionar(T elemento) {
-        if (tamanhoAtual < elementos.length) {
-            elementos[tamanhoAtual] = elemento;
-            tamanhoAtual++;
+        No<T> novoNo = new No<>(elemento);
+        if (primeiro == null) {
+            primeiro = novoNo;
         } else {
-            System.out.println("Lista cheia, não é possível adicionar mais elementos.");
+            No<T> atual = primeiro;
+            while (atual.proximo != null) {
+                atual = atual.proximo;
+            }
+            atual.proximo = novoNo;
         }
+        tamanhoAtual++;
     }
-
     public T get(int indice) {
-        if (indice >= 0 && indice < tamanhoAtual) {
-            return elementos[indice];
-        } else {
+        if (indice < 0 || indice >= tamanhoAtual) {
             return null;
         }
+        No<T> atual = primeiro;
+        for (int i = 0; i < indice; i++) {
+            atual = atual.proximo;
+        }
+        return atual.dado;
     }
-
     public int tamanho() {
-        return tamanhoAtual;   
+        return tamanhoAtual;
     }
-
     public void removerPorIndice(int indice) {
-        if (indice >= 0 && indice < tamanhoAtual) {
-            for (int i = indice; i < tamanhoAtual - 1; i++) {
-                elementos[i] = elementos[i + 1];
+        if (indice < 0 || indice >= tamanhoAtual) {
+            return;
+        }
+        if (indice == 0) {
+            primeiro = primeiro.proximo;
+        } else {
+            No<T> anterior = null;
+            No<T> atual = primeiro;
+            for (int i = 0; i < indice; i++) {
+                anterior = atual;
+                atual = atual.proximo;
             }
-            elementos[tamanhoAtual - 1] = null;
+            anterior.proximo = atual.proximo;
+        }
+        tamanhoAtual--;
+    }
+    public void removerPorElemento(T elemento) {
+        No<T> anterior = null;
+        No<T> atual = primeiro;
+        while (atual != null && !atual.dado.equals(elemento)) {
+            anterior = atual;
+            atual = atual.proximo;
+        }
+        if (atual != null) {
+            if (anterior == null) {
+                primeiro = atual.proximo;
+            } else {
+                anterior.proximo = atual.proximo;
+            }
             tamanhoAtual--;
         }
     }
-
-    public void removerPorElemento(T elemento) {
-        for (int i = 0; i < tamanhoAtual; i++) {
-            if (elementos[i] != null && elementos[i].equals(elemento)) {
-                this.removerPorIndice(i);
-                return;
-            }
-        }
-    }
-
     public boolean estaVazia() {
         return tamanhoAtual == 0;
     }
-    
     public boolean contem(T elemento) {
-        for (int i = 0; i < tamanhoAtual; i++) {
-            if (elementos[i] != null && elementos[i].equals(elemento)) {
+        No<T> atual = primeiro;
+        while (atual != null) {
+            if (atual.dado.equals(elemento)) {
                 return true;
             }
+            atual = atual.proximo;
         }
         return false;
     }
-
     public void limpar() {
-        elementos = (T[]) new Object[elementos.length];
+        primeiro = null;
         tamanhoAtual = 0;
     }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < tamanhoAtual; i++) {
-            sb.append(elementos[i]);
-            if (i < tamanhoAtual - 1) {
+        No<T> atual = primeiro;
+        while (atual != null) {
+            sb.append(atual.dado);
+            if (atual.proximo != null) {
                 sb.append(", ");
             }
+            atual = atual.proximo;
         }
         sb.append("]");
         return sb.toString();
